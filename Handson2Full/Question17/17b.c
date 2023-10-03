@@ -2,7 +2,7 @@
 ============================================================================
 Name : 17a.c
 Author : Suraj Subedi
-Description : Write a program to execute `ls -l | wc`. Use `dup`
+Description : Write a program to execute `ls -l | wc`. Use `dup2`
 Date: 3rd Oct, 2023.
 ============================================================================
 */
@@ -20,13 +20,13 @@ int main()
     {
         close(1);
         close (fd[0]);
-        dup(fd[1]);
+        dup2(fd[1],1);
         execl("ls","ls","-1",(char*)NULL);
     }
     else{
         close(0);
         close(fd[1]);
-        dup(fd[0]);
+        dup2(fd[0],0);
         execlp("wc","wc",(char*)NULL);
     }
 }
