@@ -13,7 +13,7 @@ int semIdentifier;
 bool faculty_operation_handler(int connFD);
 int add_Course(int connFD);
 
-//int view_Course(int);
+bool view_Course(int);
 
 bool faculty_operation_handler(int connFD)
 {
@@ -78,7 +78,7 @@ bool faculty_operation_handler(int connFD)
             switch (choice)
             {
             case 1:
-                //view_Course(connFD);
+                view_Course(connFD);
                 break;
             case 2:
                 add_Course(connFD);
@@ -213,6 +213,41 @@ int add_Course(int connFD)
     return newStudent.id;
 }
 
+bool view_Course(int connFD)
+{
 
+     ssize_t readBytes, writeBytes;             // Number of bytes read from / written to the socket
+    char readBuffer[1000], writeBuffer[10000]; // A buffer for reading from / writing to the socket
+    // char tempBuffer[1000];
+
+    struct Course course;
+    // int customerFileDescriptor;
+
+    // customerFileDescriptor = open("/home/surajsubedi14/Desktop/SSLAB-IIITB/MiniProject/Record_file/Course_file", O_RDONLY);
+
+    FILE *file = fopen("/home/surajsubedi14/Desktop/SSLAB-IIITB/MiniProject/Record_file/Course_file", "rb");
+    if (file == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+
+   // struct MyStruct myData;
+
+    while (fread(&course, sizeof(struct Course), 1, file) == 1) {
+        // Process or print the data from myData
+    bzero(writeBuffer, sizeof(writeBuffer));
+    sprintf(writeBuffer, "Course Details - \n\tID : %d\n\tName : %s\n", course.id, course.name);
+    writeBytes = write(connFD, writeBuffer, strlen(writeBuffer));
+
+    //strcat(writeBuffer, "\n\nYou'll now be redirected to the main menu...^");
+
+    }
+
+    fclose(file);
+
+    return 0;
+
+
+}
 
 #endif
