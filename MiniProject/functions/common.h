@@ -113,7 +113,7 @@ bool login_handler(bool isAdmin, int connFD, struct Faculty *ptrToFaculty)
         }
         else
         {
-            writeBytes = write(connFD, CUSTOMER_LOGIN_ID_DOESNT_EXIT, strlen(CUSTOMER_LOGIN_ID_DOESNT_EXIT));
+            writeBytes = write(connFD, STUDENT_ID_DOESNT_EXIT, strlen(STUDENT_ID_DOESNT_EXIT));
         }
     }
 

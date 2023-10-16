@@ -4,7 +4,7 @@ bool get_faculty_details(int connFD, int customerID);
 
 int Add_Faculty(int connFD);
 
-bool modify_Faculty_info(connFD);
+bool modify_Faculty_info(int connFD);
 
 
 
@@ -80,7 +80,8 @@ int Add_Faculty(int connFD)
 
     strcpy(newFaculty.name, readBuffer);
 
-    writeBytes = write(connFD, ADMIN_ADD_CUSTOMER_GENDER, strlen(ADMIN_ADD_CUSTOMER_GENDER));
+   /// writeBytes = write(connFD, ADMIN_ADD_CUSTOMER_GENDER,strlen(ADMIN_ADD_CUSTOMER_GENDER));
+     writeBytes=write(connFD,ADMIN_ADD_STUDENT_GENDER,strlen(ADMIN_ADD_STUDENT_GENDER));
     if (writeBytes == -1)
     {
         perror("Error writing ADMIN_ADD_CUSTOMER_GENDER message to client!");
@@ -285,7 +286,7 @@ bool get_faculty_details(int connFD, int customerID)
 }
 
 
-bool modify_Faculty_info(connFD)
+bool modify_Faculty_info(int connFD)
 {
     ssize_t readBytes, writeBytes;
     char readBuffer[1000], writeBuffer[1000];
@@ -362,7 +363,7 @@ bool modify_Faculty_info(connFD)
         return false;
     }
 
-    readBytes = read(facultyFileDescriptor, &faculty, sizeof(struct Student));
+    readBytes = read(facultyFileDescriptor, &faculty, sizeof(struct Faculty));
     if (readBytes == -1)
     {
         perror("Error while reading faculty record from the file!");
