@@ -19,6 +19,9 @@
 
 #include "./functions/facultyadmin.h"
 
+#include "./functions/student_admin.h"
+
+
 void connection_handler(int connectionFileDescriptor)
 {
     printf("Client has connected to the server!\n");
@@ -50,6 +53,9 @@ void connection_handler(int connectionFileDescriptor)
             case 2:
                  //Customer
                 faculty_operation_handler(connectionFileDescriptor);
+                break;
+            case 3:
+                student_operation_handler(connectionFileDescriptor);
                 break;
             default:
                 // Exit

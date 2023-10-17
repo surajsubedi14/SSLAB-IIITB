@@ -188,13 +188,14 @@ bool get_faculty_details(int connFD, int customerID)
     char readBuffer[1000], writeBuffer[10000]; // A buffer for reading from / writing to the socket
     char tempBuffer[1000];
 
-    struct Student student;
+    struct Faculty student;
     int customerFileDescriptor;
     struct flock lock = {F_RDLCK, SEEK_SET, 0, sizeof(struct Faculty), getpid()};
 
     if (customerID == -1)
     {
-        writeBytes = write(connFD, GET_CUSTOMER_ID, strlen(GET_CUSTOMER_ID));
+        char ch[20]="Enter the id to see";
+        writeBytes = write(connFD,ch, strlen(ch));
         if (writeBytes == -1)
         {
             perror("Error while writing GET_CUSTOMER_ID message to client!");
@@ -229,7 +230,7 @@ bool get_faculty_details(int connFD, int customerID)
         readBytes = read(connFD, readBuffer, sizeof(readBuffer)); // Dummy read
         return false;
     }
-    int offset = lseek(customerFileDescriptor, customerID * sizeof(struct Student), SEEK_SET);
+    int offset = lseek(customerFileDescriptor, customerID * sizeof(struct Faculty), SEEK_SET);
     if (errno == EINVAL)
     {
         // Customer record doesn't exist
@@ -259,7 +260,7 @@ bool get_faculty_details(int connFD, int customerID)
         return false;
     }
 
-    readBytes = read(customerFileDescriptor, &student, sizeof(struct Student));
+    readBytes = read(customerFileDescriptor, &student, sizeof(struct Faculty));
     if (readBytes == -1)
     {
         perror("Error reading student record from file!");
@@ -270,7 +271,7 @@ bool get_faculty_details(int connFD, int customerID)
     fcntl(customerFileDescriptor, F_SETLK, &lock);
 
     bzero(writeBuffer, sizeof(writeBuffer));
-    sprintf(writeBuffer, "Student Details - \n\tID : %d\n\tName : %s\n\tGender : %c\n\tAge: %d\n\tLoginID : %s", student.id, student.name, student.gender, student.age, student.login);
+    sprintf(writeBuffer, "Faculty Details - \n\tID : %d\n\tName : %s\n\tGender : %c\n\tAge: %d\n\tLoginID : %s", student.id, student.name, student.gender, student.age, student.login);
 
     strcat(writeBuffer, "\n\nYou'll now be redirected to the main menu...^");
 
@@ -480,7 +481,7 @@ bool modify_Faculty_info(int connFD)
         return false;
     }
 
-    facultyFileDescriptor = open("/home/surajsubedi14/Desktop/SSLAB-IIITB/MiniProject/Record_file/Student_file", O_WRONLY);
+    facultyFileDescriptor = open("/home/surajsubedi14/Desktop/SSLAB-IIITB/MiniProject/Record_file/Faculty_file", O_WRONLY);
     if (facultyFileDescriptor == -1)
     {
         perror("Error while opening customer file");

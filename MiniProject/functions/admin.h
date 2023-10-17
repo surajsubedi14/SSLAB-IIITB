@@ -215,7 +215,7 @@ int Add_Student(int connFD)
         return false;
     }
     newStudent.age = customerAge;
-
+    newStudent.status=1;
     
 
     strcpy(newStudent.login, newStudent.name);
@@ -239,7 +239,7 @@ int Add_Student(int connFD)
         perror("Error while writing student record to file!");
         return false;
     }
-
+    
     close(studentFileDescriptor);
 
     bzero(writeBuffer, sizeof(writeBuffer));

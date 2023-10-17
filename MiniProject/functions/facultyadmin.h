@@ -182,9 +182,15 @@ int add_Course(int connFD)
     }
 
     strcpy(newStudent.name, readBuffer);
-    newStudent.status=1;
+   /// newStudent.status=1;
 
-    
+   char ch[20]="Enter the Course id";
+   write(connFD,ch,sizeof(ch));
+    bzero(readBuffer, sizeof(readBuffer));
+   read(connFD,readBuffer,sizeof(readBuffer));
+   strcpy(newStudent.courseid,readBuffer);
+
+    newStudent.seats=150;
 
     studentFileDescriptor = open("/home/surajsubedi14/Desktop/SSLAB-IIITB/MiniProject/Record_file/Course_file", O_CREAT | O_APPEND | O_WRONLY, S_IRWXU);
     if (studentFileDescriptor == -1)
@@ -198,7 +204,7 @@ int add_Course(int connFD)
         perror("Error while writing Customer record to file!");
         return false;
     }
-
+    
     close(studentFileDescriptor);
     char  su[10]="Success^";
     writeBytes = write(connFD, su, strlen(su));
@@ -212,6 +218,10 @@ int add_Course(int connFD)
 
     return newStudent.id;
 }
+
+
+
+
 
 bool view_Course(int connFD)
 {
@@ -236,7 +246,7 @@ bool view_Course(int connFD)
     while (fread(&course, sizeof(struct Course), 1, file) == 1) {
         // Process or print the data from myData
     bzero(writeBuffer, sizeof(writeBuffer));
-    sprintf(writeBuffer, "Course Details - \n\tID : %d\n\tName : %s\n", course.id, course.name);
+    sprintf(writeBuffer, "Course Details - \n\tID : %d\n\tCourse ID: %s\n\tName : %s\n\tSeats: %d\n", course.id, course.courseid,course.name,course.seats);
     writeBytes = write(connFD, writeBuffer, strlen(writeBuffer));
 
     //strcat(writeBuffer, "\n\nYou'll now be redirected to the main menu...^");

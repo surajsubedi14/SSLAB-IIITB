@@ -24,15 +24,28 @@ struct Faculty
     // Login Credentials
     char login[30]; // Format : name-id (name will the first word in the structure member `name`)
     char password[30];
+    char department[50];
     //int status;
 };
 
 
-struct Course
-{   int id;
-    char name[100];
-    //char code[20];
-    int status;
+struct Course{
+    char name[50];
+    char department[50];
+    int credits;
+    int seats;
+    int isActive;
+    int id;
+    //int seats;
+    char courseid[10];
 };
 
+struct Enrollment {
+    int studentID;
+    int courseID;
+    int studentname;
+    //int profID;
+    //int enrollmentID;
+    //int isEnrolled;
+};
 #endif
